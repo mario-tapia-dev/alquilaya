@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Oficinas')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('oficinas')}"></header>
+
+<main class="contenedor">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <section class="caja">
+        <div class="caja-titulo">
+            <h1>Oficinas</h1>
+            <a class="boton boton-claro" th:href="@{/oficinas/nueva}">Nueva oficina</a>
+        </div>
+        <div class="caja-cuerpo">
+            <p class="vacio" th:if="${oficinas.isEmpty()}">Aún no hay oficinas. Crea la primera con «Nueva oficina».</p>
+            <div class="tabla-scroll" th:unless="${oficinas.isEmpty()}">
+                <table class="tabla">
+                    <thead>
+                        <tr><th>Oficina</th><th>Dirección</th><th>Ciudad</th><th>Región</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="o : ${oficinas}">
+                            <td th:text="${o.nombreOficina}">Oficina centro</td>
+                            <td th:text="${o.direccion}">Av. Principal 100</td>
+                            <td th:text="${o.ciudad}">Veracruz</td>
+                            <td th:text="${o.region}">Veracruz</td>
+                            <td>
+                                <div class="acciones">
+                                    <a class="boton boton-chico" th:href="@{/oficinas/{id}/editar(id=${o.idOficina})}">Editar</a>
+                                    <form th:action="@{/oficinas/{id}/eliminar(id=${o.idOficina})}" method="post"
+                                          onsubmit="return confirm('¿Eliminar esta oficina?');">
+                                        <button type="submit" class="boton boton-peligro boton-chico">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

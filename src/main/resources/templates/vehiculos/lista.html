@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Vehículos')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('vehiculos')}"></header>
+
+<main class="contenedor">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <section class="caja">
+        <div class="caja-titulo">
+            <h1>Vehículos</h1>
+            <a class="boton boton-claro" th:href="@{/vehiculos/nuevo}">Nuevo vehículo</a>
+        </div>
+        <div class="caja-cuerpo">
+            <p class="vacio" th:if="${vehiculos.isEmpty()}">Aún no hay vehículos. Registra el primero con «Nuevo vehículo».</p>
+            <div class="tabla-scroll" th:unless="${vehiculos.isEmpty()}">
+                <table class="tabla">
+                    <thead>
+                        <tr><th>Vehículo</th><th>Año</th><th>Matrícula</th><th>Tarifa diaria</th><th>Oficina</th><th>Estado</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="v : ${vehiculos}">
+                            <td th:text="${v.marca} + ' ' + ${v.modelo}">Marca Modelo</td>
+                            <td th:text="${v.anio}">2024</td>
+                            <td th:text="${v.matricula}">ABC-123</td>
+                            <td th:text="'$' + ${#numbers.formatDecimal(v.tarifaDiaria, 1, 'COMMA', 2, 'POINT')}">$0.00</td>
+                            <td th:text="${v.oficina.nombreOficina}">Oficina</td>
+                            <td><span class="etiqueta" th:classappend="'est-' + ${#strings.toLowerCase(v.estado)}" th:text="${v.estado}">DISPONIBLE</span></td>
+                            <td>
+                                <div class="acciones">
+                                    <a class="boton boton-chico" th:href="@{/vehiculos/{id}/editar(id=${v.idVehiculo})}">Editar</a>
+                                    <form th:action="@{/vehiculos/{id}/eliminar(id=${v.idVehiculo})}" method="post"
+                                          onsubmit="return confirm('¿Eliminar este vehículo?');">
+                                        <button type="submit" class="boton boton-peligro boton-chico">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

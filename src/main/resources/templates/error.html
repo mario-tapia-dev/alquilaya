@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Error')}"></head>
+<body>
+<header class="barra">
+    <div class="barra-marca"><a th:href="@{/}">AlquilaYa</a></div>
+</header>
+
+<main class="contenedor">
+    <section class="caja">
+        <div class="caja-titulo"><h1>No se pudo abrir la página</h1></div>
+        <div class="caja-cuerpo" th:switch="${status}">
+            <p th:case="403">No tienes permiso para entrar a esta sección con tu rol.</p>
+            <p th:case="404">La página que buscas no existe.</p>
+            <p th:case="*">Ocurrió un error inesperado. Intenta de nuevo; si continúa, avisa al administrador.</p>
+            <p><a class="boton boton-verde" th:href="@{/}">Volver al inicio</a></p>
+        </div>
+    </section>
+</main>
+</body>
+</html>

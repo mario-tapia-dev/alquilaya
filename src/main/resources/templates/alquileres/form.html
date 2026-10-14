@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Alquiler')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('alquileres')}"></header>
+
+<main class="contenedor">
+    <section class="caja">
+        <div class="caja-titulo"><h1 th:text="${titulo}">Alquiler</h1></div>
+        <div class="caja-cuerpo">
+            <p class="vacio" th:if="${vehiculos.isEmpty() or clientes.isEmpty()}">Para registrar un alquiler necesitas al menos un vehículo disponible y un cliente.</p>
+
+            <form class="formulario" th:action="@{${accion}}" th:object="${alquiler}" method="post"
+                  th:unless="${vehiculos.isEmpty() or clientes.isEmpty()}">
+                <div class="errores" th:if="${#fields.hasErrors('*')}">
+                    <strong>Revisa estos datos:</strong>
+                    <ul><li th:each="e : ${#fields.detailedErrors()}" th:text="${e.message}">Error</li></ul>
+                </div>
+                <div class="aviso aviso-error" th:if="${error}" th:text="${error}">Error</div>
+
+                <div class="campo">
+                    <label for="vehiculo">Vehículo</label>
+                    <select id="vehiculo" th:field="*{vehiculo.idVehiculo}">
+                        <option value="">Selecciona un vehículo</option>
+                        <option th:each="v : ${vehiculos}" th:value="${v.idVehiculo}"
+                                th:text="${v.marca} + ' ' + ${v.modelo} + ' - ' + ${v.matricula} + ' ($' + ${#numbers.formatDecimal(v.tarifaDiaria, 1, 'COMMA', 2, 'POINT')} + '/día)'">Vehículo</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="cliente">Cliente</label>
+                    <select id="cliente" th:field="*{cliente.idCliente}">
+                        <option value="">Selecciona un cliente</option>
+                        <option th:each="c : ${clientes}" th:value="${c.idCliente}"
+                                th:text="${c.nombre} + ' ' + ${c.apellido} + ' - ' + ${c.licenciaConducir}">Cliente</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="fechaAlquiler">Fecha de alquiler</label>
+                    <input id="fechaAlquiler" type="date" th:field="*{fechaAlquiler}" th:errorclass="campo-error">
+                </div>
+                <div class="campo">
+                    <label for="fechaDevolucion">Fecha de devolución</label>
+                    <input id="fechaDevolucion" type="date" th:field="*{fechaDevolucion}" th:errorclass="campo-error">
+                </div>
+                <div class="campo campo-ancho">
+                    <small>El total se calcula solo: tarifa diaria del vehículo por los días entre las dos fechas.
+                        Un vehículo no puede tener dos alquileres que se crucen.</small>
+                </div>
+
+                <div class="acciones">
+                    <button type="submit" class="boton boton-verde">Guardar alquiler</button>
+                    <a class="boton boton-claro" th:href="@{/alquileres}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>

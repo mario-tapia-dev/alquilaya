@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Mantenimientos')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('mantenimientos')}"></header>
+
+<main class="contenedor">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <section class="caja">
+        <div class="caja-titulo">
+            <h1>Mantenimientos</h1>
+            <a class="boton boton-claro" th:href="@{/mantenimientos/nuevo}">Nuevo mantenimiento</a>
+        </div>
+        <div class="caja-cuerpo">
+            <p class="vacio" th:if="${mantenimientos.isEmpty()}">Aún no hay mantenimientos. Registra el primero con «Nuevo mantenimiento».</p>
+            <div class="tabla-scroll" th:unless="${mantenimientos.isEmpty()}">
+                <table class="tabla">
+                    <thead>
+                        <tr><th>Vehículo</th><th>Fecha</th><th>Descripción</th><th>Costo</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="m : ${mantenimientos}">
+                            <td th:text="${m.vehiculo.marca} + ' ' + ${m.vehiculo.modelo} + ' (' + ${m.vehiculo.matricula} + ')'">Vehículo</td>
+                            <td th:text="${m.fechaMantenimiento}">2026-01-01</td>
+                            <td th:text="${m.descripcion}">Cambio de aceite</td>
+                            <td th:text="${m.costo != null} ? '$' + ${#numbers.formatDecimal(m.costo, 1, 'COMMA', 2, 'POINT')} : '-'">$0.00</td>
+                            <td>
+                                <div class="acciones">
+                                    <a class="boton boton-chico" th:href="@{/mantenimientos/{id}/editar(id=${m.idMantenimiento})}">Editar</a>
+                                    <form th:action="@{/mantenimientos/{id}/eliminar(id=${m.idMantenimiento})}" method="post"
+                                          onsubmit="return confirm('¿Eliminar este mantenimiento?');">
+                                        <button type="submit" class="boton boton-peligro boton-chico">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Inicio')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('inicio')}"></header>
+
+<main class="contenedor">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <section class="caja">
+        <div class="caja-titulo"><h1>Flota de vehículos</h1></div>
+        <div class="caja-cuerpo">
+            <div class="resumen">
+                <div class="dato"><strong th:text="${totalVehiculos}">0</strong>Vehículos en total</div>
+                <div class="dato"><strong th:text="${disponibles}">0</strong>Disponibles</div>
+                <div class="dato"><strong th:text="${alquilados}">0</strong>Alquilados</div>
+                <div class="dato"><strong th:text="${enMantenimiento}">0</strong>En mantenimiento</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="caja caja-madera">
+        <div class="caja-titulo"><h2>Movimiento</h2></div>
+        <div class="caja-cuerpo">
+            <div class="resumen">
+                <div class="dato"><strong th:text="${alquileresActivos}">0</strong>Alquileres en curso</div>
+                <div class="dato"><strong th:text="${totalClientes}">0</strong>Clientes registrados</div>
+                <div class="dato" th:if="${esAdmin}"><strong th:text="${totalOficinas}">0</strong>Oficinas</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="caja">
+        <div class="caja-titulo"><h2>Ir a</h2></div>
+        <div class="caja-cuerpo">
+            <div class="accesos">
+                <a class="boton boton-verde" th:href="@{/alquileres/nuevo}">Registrar alquiler</a>
+                <a class="boton" th:href="@{/alquileres}">Ver alquileres</a>
+                <a class="boton" th:href="@{/clientes}">Ver clientes</a>
+                <a class="boton" th:if="${esAdmin}" th:href="@{/vehiculos}">Ver vehículos</a>
+                <a class="boton" th:if="${esAdmin}" th:href="@{/oficinas}">Ver oficinas</a>
+                <a class="boton" th:if="${esAdmin}" th:href="@{/mantenimientos}">Ver mantenimientos</a>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

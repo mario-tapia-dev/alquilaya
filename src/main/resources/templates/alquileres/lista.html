@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Alquileres')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('alquileres')}"></header>
+
+<main class="contenedor">
+    <div th:replace="~{fragments/layout :: mensajes}"></div>
+
+    <section class="caja">
+        <div class="caja-titulo">
+            <h1>Alquileres</h1>
+            <a class="boton boton-claro" th:href="@{/alquileres/nuevo}">Nuevo alquiler</a>
+        </div>
+        <div class="caja-cuerpo">
+            <p class="vacio" th:if="${alquileres.isEmpty()}">Aún no hay alquileres. Registra el primero con «Nuevo alquiler».</p>
+            <div class="tabla-scroll" th:unless="${alquileres.isEmpty()}">
+                <table class="tabla">
+                    <thead>
+                        <tr><th>Vehículo</th><th>Cliente</th><th>Desde</th><th>Hasta</th><th>Total</th><th>Situación</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="a : ${alquileres}">
+                            <td th:text="${a.vehiculo.marca} + ' ' + ${a.vehiculo.modelo} + ' (' + ${a.vehiculo.matricula} + ')'">Vehículo</td>
+                            <td th:text="${a.cliente.nombre} + ' ' + ${a.cliente.apellido}">Cliente</td>
+                            <td th:text="${a.fechaAlquiler}">2026-01-01</td>
+                            <td th:text="${a.fechaDevolucion}">2026-01-03</td>
+                            <td th:text="'$' + ${#numbers.formatDecimal(a.precioTotal, 1, 'COMMA', 2, 'POINT')}">$0.00</td>
+                            <td th:switch="true">
+                                <span th:case="${!a.fechaDevolucion.isAfter(hoy)}" class="etiqueta est-finalizado">Finalizado</span>
+                                <span th:case="${a.fechaAlquiler.isAfter(hoy)}" class="etiqueta est-programado">Programado</span>
+                                <span th:case="*" class="etiqueta est-activo">En curso</span>
+                            </td>
+                            <td>
+                                <div class="acciones">
+                                    <a class="boton boton-chico" th:href="@{/alquileres/{id}/editar(id=${a.idAlquiler})}">Editar</a>
+                                    <form th:action="@{/alquileres/{id}/eliminar(id=${a.idAlquiler})}" method="post"
+                                          onsubmit="return confirm('¿Eliminar este alquiler?');">
+                                        <button type="submit" class="boton boton-peligro boton-chico">Eliminar</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:fragment="cabecera(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${titulo} + ' - AlquilaYa'">AlquilaYa</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+
+<!-- Barra de navegacion: los enlaces de vehiculos, oficinas y mantenimientos solo los ve el ADMIN -->
+<header class="barra" th:fragment="menu(activo)">
+    <div class="barra-marca"><a th:href="@{/}">AlquilaYa</a></div>
+    <nav class="barra-enlaces">
+        <a th:href="@{/}" th:classappend="${activo == 'inicio'} ? 'activo'">Inicio</a>
+        <a th:if="${esAdmin}" th:href="@{/vehiculos}" th:classappend="${activo == 'vehiculos'} ? 'activo'">Vehículos</a>
+        <a th:href="@{/clientes}" th:classappend="${activo == 'clientes'} ? 'activo'">Clientes</a>
+        <a th:if="${esAdmin}" th:href="@{/oficinas}" th:classappend="${activo == 'oficinas'} ? 'activo'">Oficinas</a>
+        <a th:href="@{/alquileres}" th:classappend="${activo == 'alquileres'} ? 'activo'">Alquileres</a>
+        <a th:if="${esAdmin}" th:href="@{/mantenimientos}" th:classappend="${activo == 'mantenimientos'} ? 'activo'">Mantenimientos</a>
+    </nav>
+    <form class="barra-sesion" th:action="@{/logout}" method="post">
+        <span th:text="${usuarioActual}">usuario@correo.com</span>
+        <button type="submit" class="boton boton-claro boton-chico">Cerrar sesión</button>
+    </form>
+</header>
+
+<!-- Mensajes de exito o error (llegan desde los controladores) -->
+<div th:fragment="mensajes">
+    <div class="aviso aviso-ok" th:if="${mensaje}" th:text="${mensaje}">Operación realizada</div>
+    <div class="aviso aviso-error" th:if="${error}" th:text="${error}">Ocurrió un error</div>
+</div>
+
+</body>
+</html>

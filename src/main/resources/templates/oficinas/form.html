@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Oficina')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('oficinas')}"></header>
+
+<main class="contenedor">
+    <section class="caja">
+        <div class="caja-titulo"><h1 th:text="${titulo}">Oficina</h1></div>
+        <div class="caja-cuerpo">
+            <form class="formulario" th:action="@{${accion}}" th:object="${oficina}" method="post">
+                <div class="errores" th:if="${#fields.hasErrors('*')}">
+                    <strong>Revisa estos datos:</strong>
+                    <ul><li th:each="e : ${#fields.detailedErrors()}" th:text="${e.message}">Error</li></ul>
+                </div>
+                <div class="aviso aviso-error" th:if="${error}" th:text="${error}">Error</div>
+
+                <div class="campo">
+                    <label for="nombreOficina">Nombre de la oficina</label>
+                    <input id="nombreOficina" type="text" th:field="*{nombreOficina}" th:errorclass="campo-error" maxlength="100">
+                </div>
+                <div class="campo">
+                    <label for="direccion">Dirección</label>
+                    <input id="direccion" type="text" th:field="*{direccion}" th:errorclass="campo-error" maxlength="150">
+                </div>
+                <div class="campo">
+                    <label for="ciudad">Ciudad</label>
+                    <input id="ciudad" type="text" th:field="*{ciudad}" th:errorclass="campo-error" maxlength="50">
+                </div>
+                <div class="campo">
+                    <label for="region">Región</label>
+                    <input id="region" type="text" th:field="*{region}" th:errorclass="campo-error" maxlength="50">
+                </div>
+
+                <div class="acciones">
+                    <button type="submit" class="boton boton-verde">Guardar oficina</button>
+                    <a class="boton boton-claro" th:href="@{/oficinas}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>

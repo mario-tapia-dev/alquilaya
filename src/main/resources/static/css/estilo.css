@@ -1,0 +1,397 @@
+/* AlquilaYa - tema bosque: verdes y cafes, cajas con bordes marcados */
+
+:root {
+    --bosque: #1f3a2a;
+    --bosque-oscuro: #14281c;
+    --musgo: #3f6b45;
+    --hoja: #a8c48e;
+    --niebla: #eef2e2;
+    --corteza: #3b2616;
+    --madera: #8a5a35;
+    --arcilla: #d6b98c;
+    --rojo: #8c2f20;
+    --borde: 3px solid var(--corteza);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bosque);
+    color: var(--corteza);
+    font-family: "Trebuchet MS", "Segoe UI", Tahoma, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+h1, h2, h3 {
+    font-family: Georgia, "Times New Roman", serif;
+    margin: 0;
+}
+
+a {
+    color: var(--madera);
+}
+
+:focus-visible {
+    outline: 3px solid #f2c14e;
+    outline-offset: 2px;
+}
+
+/* ---------- Barra superior ---------- */
+
+.barra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--corteza);
+    border-bottom: 5px solid var(--musgo);
+}
+
+.barra-marca a {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--hoja);
+    text-decoration: none;
+}
+
+.barra-enlaces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.barra-enlaces a {
+    color: var(--niebla);
+    text-decoration: none;
+    padding: 0.3rem 0.8rem;
+    border: 3px solid transparent;
+}
+
+.barra-enlaces a:hover {
+    border-color: var(--hoja);
+}
+
+.barra-enlaces a.activo {
+    background: var(--musgo);
+    border-color: var(--hoja);
+    font-weight: bold;
+}
+
+.barra-sesion {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    color: var(--arcilla);
+    font-size: 0.9rem;
+}
+
+/* ---------- Estructura ---------- */
+
+.contenedor {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.caja {
+    background: var(--niebla);
+    border: var(--borde);
+    box-shadow: 6px 6px 0 var(--bosque-oscuro);
+    margin-bottom: 1.5rem;
+}
+
+.caja-titulo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    background: var(--musgo);
+    color: #fff;
+    border-bottom: var(--borde);
+}
+
+.caja-titulo h1,
+.caja-titulo h2 {
+    font-size: 1.3rem;
+}
+
+.caja-cuerpo {
+    padding: 1rem;
+}
+
+.caja-madera .caja-titulo {
+    background: var(--madera);
+}
+
+/* ---------- Botones ---------- */
+
+.boton {
+    display: inline-block;
+    padding: 0.4rem 0.9rem;
+    background: var(--madera);
+    color: #fff;
+    border: var(--borde);
+    box-shadow: 3px 3px 0 var(--corteza);
+    font: inherit;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.boton:hover {
+    filter: brightness(1.12);
+}
+
+.boton:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--corteza);
+}
+
+.boton-verde {
+    background: var(--musgo);
+}
+
+.boton-claro {
+    background: var(--arcilla);
+    color: var(--corteza);
+}
+
+.boton-peligro {
+    background: var(--rojo);
+}
+
+.boton-chico {
+    padding: 0.15rem 0.6rem;
+    font-size: 0.9rem;
+    box-shadow: 2px 2px 0 var(--corteza);
+}
+
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.acciones form {
+    margin: 0;
+}
+
+/* ---------- Tablas ---------- */
+
+.tabla-scroll {
+    overflow-x: auto;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: var(--borde);
+}
+
+.tabla th,
+.tabla td {
+    border: 2px solid var(--corteza);
+    padding: 0.5rem 0.7rem;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.tabla th {
+    background: var(--hoja);
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.tabla tbody tr:nth-child(even) {
+    background: #f3f0e4;
+}
+
+.vacio {
+    margin: 0;
+    padding: 1rem;
+    border: 2px dashed var(--madera);
+    background: #fff;
+}
+
+/* ---------- Etiquetas de estado ---------- */
+
+.etiqueta {
+    display: inline-block;
+    padding: 0 0.5rem;
+    border: 2px solid var(--corteza);
+    font-weight: bold;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.est-disponible,
+.est-activo {
+    background: #cfe5b8;
+}
+
+.est-alquilado,
+.est-programado {
+    background: #e6c79c;
+}
+
+.est-mantenimiento {
+    background: #e8b7a8;
+}
+
+.est-finalizado {
+    background: #d9d9cf;
+}
+
+/* ---------- Avisos ---------- */
+
+.aviso {
+    padding: 0.7rem 1rem;
+    margin-bottom: 1.5rem;
+    border: var(--borde);
+    box-shadow: 4px 4px 0 var(--bosque-oscuro);
+    font-weight: bold;
+}
+
+.aviso-ok {
+    background: #cfe5b8;
+}
+
+.aviso-error {
+    background: #f1c9bd;
+    color: #5c1a10;
+}
+
+.caja-cuerpo .aviso {
+    box-shadow: none;
+    margin-bottom: 1rem;
+}
+
+.errores {
+    padding: 0.7rem 1rem;
+    margin-bottom: 1rem;
+    border: var(--borde);
+    background: #f1c9bd;
+    color: #5c1a10;
+}
+
+.errores ul {
+    margin: 0.3rem 0 0;
+    padding-left: 1.2rem;
+}
+
+/* ---------- Formularios ---------- */
+
+.formulario {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.formulario .errores,
+.formulario .aviso,
+.formulario .campo-ancho,
+.formulario .acciones {
+    grid-column: 1 / -1;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 0.45rem 0.6rem;
+    border: var(--borde);
+    background: #fff;
+    color: var(--corteza);
+    font: inherit;
+}
+
+.campo input.campo-error,
+.campo select.campo-error {
+    border-color: var(--rojo);
+    background: #fbe9e4;
+}
+
+.campo small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #5b4636;
+}
+
+/* ---------- Inicio ---------- */
+
+.resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+}
+
+.dato {
+    padding: 0.8rem 1rem;
+    background: #fff;
+    border: var(--borde);
+}
+
+.dato strong {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2rem;
+    line-height: 1.1;
+}
+
+.accesos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* ---------- Inicio de sesion ---------- */
+
+.login {
+    max-width: 420px;
+    margin: 4rem auto;
+    padding: 0 1rem;
+}
+
+.login .campo {
+    margin-bottom: 1rem;
+}
+
+.login-marca {
+    margin: 0 0 1rem;
+    text-align: center;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2.2rem;
+    color: var(--hoja);
+}
+
+/* ---------- Pantallas pequenas ---------- */
+
+@media (max-width: 700px) {
+    .formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .contenedor {
+        padding: 1rem;
+    }
+
+    .barra {
+        padding: 0.75rem 1rem;
+    }
+}

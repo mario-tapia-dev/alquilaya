@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{fragments/layout :: cabecera('Mantenimiento')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: menu('mantenimientos')}"></header>
+
+<main class="contenedor">
+    <section class="caja">
+        <div class="caja-titulo"><h1 th:text="${titulo}">Mantenimiento</h1></div>
+        <div class="caja-cuerpo">
+            <p class="vacio" th:if="${vehiculos.isEmpty()}">Antes de registrar un mantenimiento necesitas al menos un vehículo.</p>
+
+            <form class="formulario" th:action="@{${accion}}" th:object="${mantenimiento}" method="post" th:unless="${vehiculos.isEmpty()}">
+                <div class="errores" th:if="${#fields.hasErrors('*')}">
+                    <strong>Revisa estos datos:</strong>
+                    <ul><li th:each="e : ${#fields.detailedErrors()}" th:text="${e.message}">Error</li></ul>
+                </div>
+                <div class="aviso aviso-error" th:if="${error}" th:text="${error}">Error</div>
+
+                <div class="campo">
+                    <label for="vehiculo">Vehículo</label>
+                    <select id="vehiculo" th:field="*{vehiculo.idVehiculo}">
+                        <option value="">Selecciona un vehículo</option>
+                        <option th:each="v : ${vehiculos}" th:value="${v.idVehiculo}"
+                                th:text="${v.marca} + ' ' + ${v.modelo} + ' - ' + ${v.matricula}">Vehículo</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="fechaMantenimiento">Fecha</label>
+                    <input id="fechaMantenimiento" type="date" th:field="*{fechaMantenimiento}" th:errorclass="campo-error">
+                </div>
+                <div class="campo">
+                    <label for="descripcion">Descripción</label>
+                    <input id="descripcion" type="text" th:field="*{descripcion}" th:errorclass="campo-error" maxlength="255">
+                </div>
+                <div class="campo">
+                    <label for="costo">Costo ($)</label>
+                    <input id="costo" type="number" step="0.01" min="0" th:field="*{costo}" th:errorclass="campo-error">
+                </div>
+
+                <div class="acciones">
+                    <button type="submit" class="boton boton-verde">Guardar mantenimiento</button>
+                    <a class="boton boton-claro" th:href="@{/mantenimientos}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
